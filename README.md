@@ -1,6 +1,6 @@
 # bloc_example
 
-Example flutter prject for worl with BLoC.
+Example flutter project for work with Flutter BLoC.
 
 ## Getting Started
 
