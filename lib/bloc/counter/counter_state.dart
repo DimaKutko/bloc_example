@@ -1,13 +1,19 @@
-import 'package:flutter/material.dart';
+import 'package:built_value/built_value.dart';
 
-@immutable
-class CounterState {
-  final int value;
-  final int operationsCounter;
+part 'counter_state.g.dart';
 
-  const CounterState(this.value, this.operationsCounter);
-}
+abstract class CounterState
+    implements Built<CounterState, CounterStateBuilder> {
+  int get value;
+  int get operationsCounter;
 
-class InitialCounterState extends CounterState {
-  const InitialCounterState() : super(0, 0);
+  @BuiltValueHook(initializeBuilder: true)
+  static void _setDefaults(CounterStateBuilder b) => b
+    ..value = 0
+    ..operationsCounter = 0;
+
+  CounterState._();
+
+  factory CounterState([void Function(CounterStateBuilder) updates]) =
+      _$CounterState;
 }

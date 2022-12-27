@@ -17,28 +17,24 @@ class MyApp extends StatelessWidget {
         title: 'Flutter Demo',
         theme: ThemeData(primarySwatch: Colors.blue),
         themeMode: ThemeMode.dark,
-        home: const MyHomePage(title: 'Flutter Demo Home Page'),
+        home: const MyHomePage(),
       ),
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-
-  final String title;
+  const MyHomePage({super.key});
 
   @override
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  CounterBloc get _counterBloc => BlocProvider.of<CounterBloc>(context);
-
-  Widget _buildCommonButton(Widget child, CounterEvent event) {
+  Widget _buildCommonButton(String symbol, CounterEvent event) {
     return FloatingActionButton(
-      onPressed: () => _counterBloc.add(event),
-      child: child,
+      onPressed: () => BlocProvider.of<CounterBloc>(context).add(event),
+      child: Text(symbol),
     );
   }
 
@@ -47,7 +43,9 @@ class _MyHomePageState extends State<MyHomePage> {
     return BlocBuilder<CounterBloc, CounterState>(
       builder: (context, state) {
         return Scaffold(
-          appBar: AppBar(title: Text(widget.title)),
+          appBar: AppBar(
+            title: Text('Operations - ${state.operationsCounter}'),
+          ),
           body: Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -60,21 +58,12 @@ class _MyHomePageState extends State<MyHomePage> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    _buildCommonButton(
-                      const Text('+'),
-                      CounterIncrementEvent(),
-                    ),
-                    _buildCommonButton(
-                      const Text('-'),
-                      CounterDecrementEvent(),
-                    ),
-                    _buildCommonButton(
-                      const Text('x2'),
-                      CounterDoubleEvent(),
-                    ),
+                    _buildCommonButton('+', CounterIncrementEvent()),
+                    _buildCommonButton('-', CounterDecrementEvent()),
+                    _buildCommonButton('x2', CounterDoubleEvent()),
                   ],
                 ),
-                _buildCommonButton(const Text('R'), CounterResetEvent()),
+                _buildCommonButton('R', CounterResetEvent()),
               ],
             ),
           ),
